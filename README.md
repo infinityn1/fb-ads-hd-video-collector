@@ -9,7 +9,7 @@ It **does not download videos**, only stores the links for later use. Duplicate 
 
 - Collects HD video URLs (`video_hd_url` or `playable_url_quality_hd`) from Facebook Ads Library responses.
 - Automatically avoids duplicate URLs.
-- Outputs URLs to `hd_video_urls.txt`.
+- Saves URLs to `hd_video_urls.txt`.
 - Works in **real-time** as you scroll manually through the Ads Library page.
 - Shows the total number of URLs found in the terminal.
 
@@ -17,13 +17,23 @@ It **does not download videos**, only stores the links for later use. Duplicate 
 
 ## Why Use This Script?
 
-- **Collect HD Video URLs Easily**: Automatically finds HD video links from Facebook Ads Library.  
-- **No Downloads Needed**: Only saves URLs, saving bandwidth and storage.  
+- **Easy HD Video URL Collection**: Automatically finds HD video links from Facebook Ads Library.  
+- **No Downloads**: Only saves URLs, reducing bandwidth and storage usage.  
 - **Duplicate-Free**: Prevents writing the same URL twice.  
-- **Real-Time Updates**: Shows live counts as you scroll the page.  
+- **Live Updates**: Displays total found URLs in real-time while scrolling.  
 - **Deep JSON Parsing**: Finds URLs even in nested GraphQL responses.  
-- **Simple Setup**: Minimal dependencies and automatic Chromium management.  
-- **Safe**: Only collects URLs, no spamming or downloading involved.  
+- **Minimal Setup**: Simple Python script with Playwright managing Chromium.  
+- **Safe**: Only collects URLs, no downloading or spamming is performed.
+
+---
+
+## How It Works
+
+1. Run the Python script.  
+2. A Chromium browser window opens and loads the Facebook Ads Library page.  
+3. Scroll manually through the page. The script listens for GraphQL responses.  
+4. Any HD video URLs found in the responses are saved into `hd_video_urls.txt`.  
+5. Terminal shows live status of total URLs found.
 
 ---
 

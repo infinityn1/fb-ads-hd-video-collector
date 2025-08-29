@@ -3,9 +3,13 @@ import os
 import json
 from playwright.async_api import async_playwright
 
+# Constant for Facebook Ads Library URL
+FACEBOOK_ADS_LIBRARY_URL = "your_facebook_ads_library_url"
+
+# Output file to store found HD video URLs
 OUTPUT_FILE = "hd_video_urls.txt"
 
-# Oldin yozilgan URL’larni o‘qiymiz, duplicate yozmaslik uchun
+# Read previously saved URLs to avoid duplicates
 if os.path.exists(OUTPUT_FILE):
     with open(OUTPUT_FILE, "r") as f:
         saved_urls = set(line.strip() for line in f)
@@ -14,7 +18,8 @@ else:
 
 found_count = 0
 
-async def save_url(url):
+async def save_url(url: str):
+    """Save HD video URL to file if not already saved"""
     global found_count
     if url in saved_urls:
         return
@@ -22,11 +27,11 @@ async def save_url(url):
         f.write(url + "\n")
     saved_urls.add(url)
     found_count += 1
-    print(f"[FOUND] {url} | Total found: {found_count}")
 
 async def main():
     global found_count
     async with async_playwright() as p:
+        # Launch Chromium using local Chrome
         browser = await p.chromium.launch(channel="chrome", headless=False)
         context = await browser.new_context()
         page = await context.new_page()
@@ -37,7 +42,7 @@ async def main():
                     text = await response.text()
                     data = json.loads(text)
 
-                    # Recursive search for HD video URLs
+                    # Recursive search for HD video URLs in JSON
                     def find_hd_videos(obj):
                         urls = []
                         if isinstance(obj, dict):
@@ -60,12 +65,11 @@ async def main():
                 except Exception as e:
                     print(f"[ERROR parsing response] {e}")
 
+        # Attach response handler
         page.on("response", handle_response)
 
-        # Ads Library sahifasi
-        await page.goto(
-            "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=UZ&is_targeted_country=false&media_type=all&q=ovoz&search_type=keyword_unordered"
-        )
+        # Open Facebook Ads Library page using the constant URL
+        await page.goto(FACEBOOK_ADS_LIBRARY_URL)
 
         print("Scroll the page manually in Chromium. Press Ctrl+C to stop.")
 
