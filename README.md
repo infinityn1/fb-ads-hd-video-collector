@@ -1,4 +1,4 @@
-# Facebook HD Video URL Collector
+# Facebook ADS HD Video URL Collector
 
 This Python script collects **HD video URLs** from the **Facebook Ads Library** and saves them into a `.txt` file.  
 It **does not download videos**, only stores the links for later use. Duplicate URLs are automatically ignored.
